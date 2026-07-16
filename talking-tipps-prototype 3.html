@@ -1,0 +1,1340 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Karla:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#FAFAF8;
+  --surface:#FFFFFF;
+  --ink:#141414;
+  --ink-soft:#4A4A4A;
+  --blue:#E8630F;
+  --blue-dark:#141414;
+  --blue-tint:#FCE7D6;
+  --green:#B84A0F;
+  --green-tint:#F2F1EE;
+  --coral:#F2760F;
+  --coral-tint:#FDEAD9;
+  --gold:#C75B12;
+  --border:#E6E4DE;
+  --radius-sm:10px;
+  --radius-md:18px;
+  --radius-lg:30px;
+  --shadow:0 16px 40px -18px rgba(20,20,20,0.28);
+  --font-display:'Fredoka',sans-serif;
+  --font-body:'Karla',sans-serif;
+}
+*{box-sizing:border-box;}
+.tt-root{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.6;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.tt-root h1,.tt-root h2,.tt-root h3,.tt-root h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  line-height:1.15;
+  margin:0;
+  letter-spacing:-0.01em;
+}
+.tt-root p{margin:0;}
+.tt-root a{color:inherit;text-decoration:none;}
+.tt-root button{font-family:var(--font-body);cursor:pointer;border:none;font-size:16px;}
+.tt-root ul{margin:0;padding:0;list-style:none;}
+.tt-root img,.tt-root svg{display:block;max-width:100%;}
+.tt-root :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px;}
+@media (prefers-reduced-motion: reduce){
+  .tt-root *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+.skip-link{
+  position:absolute;left:-999px;top:0;background:var(--blue-dark);color:#fff;padding:12px 20px;
+  z-index:200;border-radius:0 0 10px 0;font-weight:600;
+}
+.skip-link:focus{left:0;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--blue);
+}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--coral);border-radius:2px;}
+
+.pattern-strip{
+  height:10px;
+  background:repeating-linear-gradient(90deg,var(--blue) 0 26px,var(--gold) 26px 34px,var(--coral) 34px 42px,var(--green) 42px 68px,var(--bg) 68px 76px);
+  opacity:0.9;
+}
+
+/* Header */
+.tt-header{position:sticky;top:0;z-index:50;background:rgba(245,247,241,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.tt-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.tt-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--blue-dark);}
+.tt-logo-mark{width:34px;height:34px;flex-shrink:0;}
+.tt-navlinks{display:flex;align-items:center;gap:2px;}
+.tt-navlinks button{background:none;padding:10px 14px;min-height:44px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink-soft);transition:background .15s ease,color .15s ease;}
+.tt-navlinks button:hover{background:var(--blue-tint);color:var(--blue-dark);}
+.tt-navlinks button[aria-current="page"]{background:var(--blue);color:#fff;}
+.tt-cta-group{display:flex;align-items:center;gap:10px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;min-height:44px;border-radius:999px;font-weight:700;font-size:15px;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;white-space:nowrap;}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--coral);color:#fff;box-shadow:0 10px 24px -10px rgba(242,118,15,0.7);}
+.btn-primary:hover{background:#D9670A;}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;box-shadow:none;}
+.btn-outline{background:transparent;color:var(--blue-dark);border:1.5px solid var(--blue);}
+.btn-outline:hover{background:var(--blue-tint);}
+.btn-ghost{background:var(--green-tint);color:var(--blue-dark);}
+.btn-ghost:hover{background:#EFEAE2;}
+.hamburger{display:none;background:none;padding:10px;min-height:44px;min-width:44px;color:var(--ink);}
+.mobile-link{min-height:48px;text-align:left;background:none;font-size:16px;font-weight:600;color:var(--ink-soft);border-radius:10px;padding:0 12px;}
+.mobile-link[aria-current="page"]{background:var(--blue-tint);color:var(--blue-dark);}
+
+.page{display:none;animation:fadeIn .35s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* Hero */
+.hero{padding:60px 0 52px;overflow:hidden;}
+.hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;}
+.hero h1{font-size:clamp(32px,4.4vw,50px);color:var(--blue-dark);margin-top:14px;}
+.hero-sub{margin-top:18px;font-size:18px;color:var(--ink-soft);max-width:490px;}
+.hero-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;}
+.hero-trust{margin-top:34px;display:flex;gap:26px;flex-wrap:wrap;}
+.hero-trust div{font-family:var(--font-display);font-size:24px;color:var(--blue-dark);}
+.hero-trust span{display:block;font-family:var(--font-body);font-size:13px;color:var(--ink-soft);font-weight:600;}
+.wave-card{background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:28px;}
+.wave-bubbles{display:flex;flex-direction:column;gap:14px;}
+.bubble{border-radius:20px;padding:14px 18px;font-size:15px;max-width:85%;}
+.bubble.b1{background:var(--blue-tint);color:var(--blue-dark);align-self:flex-start;border-bottom-left-radius:6px;}
+.bubble.b2{background:var(--coral);color:#fff;align-self:flex-end;border-bottom-right-radius:6px;}
+.bubble.b3{background:var(--green-tint);color:var(--blue-dark);align-self:flex-start;border-bottom-left-radius:6px;}
+.waveform{margin-top:20px;height:54px;}
+.waveform path{stroke:var(--coral);}
+
+.section{padding:60px 0;}
+.section-tight{padding:40px 0;}
+.section-head{max-width:660px;margin-bottom:34px;}
+.section-head h2{font-size:clamp(26px,3.2vw,36px);color:var(--blue-dark);margin-top:10px;}
+.section-head p{margin-top:12px;font-size:16.5px;color:var(--ink-soft);}
+.section-alt{background:var(--surface);}
+.page-title{font-size:clamp(28px,3.6vw,42px);color:var(--blue-dark);margin-top:10px;max-width:700px;}
+.lede{margin-top:14px;color:var(--ink-soft);font-size:16.5px;max-width:640px;}
+
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.card{background:var(--surface);border-radius:var(--radius-md);padding:26px;border:1px solid var(--border);transition:box-shadow .2s ease, transform .2s ease;}
+.card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
+.card .icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;}
+.icon-blue{background:var(--blue-tint);color:var(--blue);}
+.icon-coral{background:var(--coral-tint);color:var(--coral);}
+.icon-green{background:var(--green-tint);color:var(--green);}
+.card h3{font-size:18px;color:var(--blue-dark);}
+.card p{margin-top:8px;font-size:14.5px;color:var(--ink-soft);}
+.card .card-link{display:inline-block;margin-top:14px;font-weight:700;color:var(--blue);font-size:14px;}
+
+.journey{position:relative;padding:20px 0 6px;}
+.journey-line{position:absolute;top:38px;left:6%;right:6%;height:3px;background:repeating-linear-gradient(90deg,var(--border) 0 10px,transparent 10px 18px);}
+.journey-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;position:relative;}
+.journey-steps.four{grid-template-columns:repeat(4,1fr);}
+.journey-step{text-align:center;}
+.journey-dot{width:56px;height:56px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;margin:0 auto 14px;box-shadow:0 8px 18px -6px rgba(232,99,15,0.55);}
+.journey-step:nth-child(2) .journey-dot{background:var(--coral);box-shadow:0 8px 18px -6px rgba(242,118,15,0.55);}
+.journey-step:nth-child(3) .journey-dot{background:var(--gold);box-shadow:0 8px 18px -6px rgba(199,91,18,0.55);}
+.journey-step:nth-child(4) .journey-dot{background:var(--green);box-shadow:0 8px 18px -6px rgba(184,74,15,0.55);}
+.journey-step h4{font-size:15.5px;color:var(--blue-dark);}
+.journey-step p{margin-top:6px;font-size:13.5px;color:var(--ink-soft);}
+
+.testi-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.testi{background:var(--blue-dark);color:#fff;border-radius:var(--radius-md);padding:26px;display:flex;flex-direction:column;}
+.testi .stars{color:var(--gold);font-size:14px;letter-spacing:2px;}
+.testi p.quote{font-size:15.5px;line-height:1.6;margin-top:10px;flex-grow:1;}
+.testi .who{margin-top:16px;display:flex;align-items:center;gap:10px;font-size:13.5px;color:#D9D5CC;}
+.testi .avatar{width:36px;height:36px;border-radius:50%;background:var(--coral);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:#fff;font-size:14px;flex-shrink:0;}
+
+.cta-band{background:linear-gradient(135deg,var(--blue) 0%, var(--blue-dark) 100%);border-radius:var(--radius-lg);padding:48px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.cta-band h3{font-size:26px;}
+.cta-band p{margin-top:8px;color:#D9D5CC;font-size:15px;max-width:420px;}
+
+/* About */
+.founder{display:grid;grid-template-columns:0.8fr 1.2fr;gap:40px;align-items:center;}
+.founder-photo{aspect-ratio:4/5;border-radius:var(--radius-lg);background:linear-gradient(160deg,var(--coral-tint),var(--blue-tint));display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);font-family:var(--font-display);color:var(--blue-dark);font-size:15px;text-align:center;padding:20px;}
+.value-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px;}
+.value-chip{background:var(--green-tint);color:var(--blue-dark);padding:8px 16px;border-radius:999px;font-size:14px;font-weight:700;}
+.stat-row{display:flex;gap:36px;flex-wrap:wrap;margin-top:10px;}
+.stat-row div{font-family:var(--font-display);font-size:30px;color:var(--blue-dark);}
+.stat-row span{display:block;font-size:13px;color:var(--ink-soft);font-weight:600;}
+
+/* Services */
+.service-tabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;}
+.stab{background:var(--surface);border:1.5px solid var(--border);padding:11px 18px;min-height:44px;border-radius:999px;font-weight:700;font-size:14.5px;color:var(--ink-soft);}
+.stab[aria-selected="true"]{background:var(--blue-dark);color:#fff;border-color:var(--blue-dark);}
+.svc-group{display:none;}
+.svc-group.active{display:block;}
+.svc-list{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.svc-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px;}
+.svc-item h4{color:var(--blue-dark);font-size:16px;}
+.svc-item p{margin-top:6px;font-size:14px;color:var(--ink-soft);}
+.svc-cta{margin-top:36px;background:var(--coral-tint);border-radius:var(--radius-md);padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.svc-cta h3{color:var(--blue-dark);font-size:19px;}
+
+/* Teletherapy */
+.tele-hero{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.checklist li{display:flex;gap:10px;font-size:15px;color:var(--ink-soft);margin-top:10px;align-items:flex-start;}
+.checklist li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;}
+.faq-item{border-bottom:1px solid var(--border);padding:6px 0;}
+.faq-q{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--blue-dark);font-size:15.5px;background:none;padding:14px 0;min-height:44px;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;font-size:14.5px;color:var(--ink-soft);}
+.faq-item[data-open="true"] .faq-a{max-height:240px;padding-bottom:14px;}
+.faq-item[data-open="true"] .faq-plus{transform:rotate(45deg);}
+.faq-plus{transition:transform .2s ease;font-size:20px;color:var(--coral);flex-shrink:0;}
+.country-pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.country-pills span{background:var(--gold);color:#fff;padding:7px 16px;border-radius:999px;font-size:13.5px;font-weight:700;}
+.country-pills span.dim{background:var(--blue-tint);color:var(--blue-dark);}
+
+/* Booking wizard */
+.wizard-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:32px;box-shadow:var(--shadow);max-width:760px;margin:0 auto;}
+.wizard-progress{display:flex;align-items:center;gap:8px;margin-bottom:28px;}
+.wizard-progress .seg{flex:1;height:6px;border-radius:999px;background:var(--border);}
+.wizard-progress .seg.done{background:var(--blue);}
+.wizard-step-label{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:6px;}
+.wizard-step{display:none;}
+.wizard-step.active{display:block;}
+.svc-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.svc-type-card{border:2px solid var(--border);border-radius:var(--radius-md);padding:18px;text-align:left;background:var(--surface);min-height:44px;}
+.svc-type-card[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-tint);}
+.svc-type-card h4{font-size:15px;color:var(--blue-dark);}
+.svc-type-card p{margin-top:4px;font-size:13px;color:var(--ink-soft);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{font-size:13.5px;font-weight:700;color:var(--blue-dark);}
+.form-field input,.form-field select,.form-field textarea{padding:12px 14px;min-height:44px;border-radius:10px;border:1.5px solid var(--border);font-family:var(--font-body);font-size:15px;background:#FCFDFB;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--blue);}
+.form-hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+.wizard-actions{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.summary-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);font-size:14.5px;}
+.summary-row span:first-child{color:var(--ink-soft);}
+.summary-row span:last-child{font-weight:700;color:var(--blue-dark);}
+.confirm-box{display:none;text-align:center;padding:30px 10px 10px;}
+.confirm-box.show{display:block;}
+.confirm-tick{width:64px;height:64px;border-radius:50%;background:var(--green-tint);color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;}
+
+/* Team */
+.team-card{text-align:center;}
+.team-photo{aspect-ratio:1;border-radius:var(--radius-md);background:linear-gradient(160deg,var(--blue-tint),var(--coral-tint));margin-bottom:14px;display:flex;align-items:center;justify-content:center;color:var(--blue-dark);font-size:13px;text-align:center;padding:10px;}
+.team-meta{margin-top:10px;font-size:13px;color:var(--ink-soft);text-align:left;}
+.team-meta div{margin-top:6px;}
+.team-meta b{color:var(--blue-dark);}
+
+/* Resources */
+.res-tag{display:inline-block;background:var(--blue-tint);color:var(--blue-dark);font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;margin-bottom:10px;}
+.milestone-row{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);align-items:baseline;}
+.milestone-row .age{font-family:var(--font-display);color:var(--blue-dark);min-width:90px;font-size:15px;}
+.milestone-row p{color:var(--ink-soft);font-size:14.5px;}
+.newsletter-box{background:var(--green-tint);border-radius:var(--radius-lg);padding:32px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.newsletter-box form{display:flex;gap:10px;flex-wrap:wrap;}
+.newsletter-box input{padding:12px 16px;min-height:44px;border-radius:999px;border:1.5px solid var(--border);min-width:220px;}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+.contact-row{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);}
+.contact-row .icon{margin-bottom:0;flex-shrink:0;}
+.map-box{aspect-ratio:16/10;border-radius:var(--radius-md);background:linear-gradient(var(--green-tint),var(--green-tint)),repeating-linear-gradient(45deg,rgba(20,20,20,0.05) 0 12px, transparent 12px 24px);display:flex;align-items:center;justify-content:center;color:var(--blue-dark);font-weight:700;font-size:14px;border:1px solid var(--border);}
+.urgent-box{margin-top:20px;background:var(--coral-tint);border-radius:var(--radius-md);padding:18px 20px;font-size:14.5px;color:var(--blue-dark);}
+.social-row{display:flex;gap:10px;margin-top:16px;}
+.social-row a{width:40px;height:40px;border-radius:50%;background:var(--blue-tint);color:var(--blue-dark);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;}
+.whatsapp-float{position:fixed;bottom:22px;right:22px;z-index:60;background:#141414;color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 24px -8px rgba(0,0,0,0.45);}
+
+/* Auth / Client Login */
+.auth-section{padding:64px 0;min-height:60vh;display:flex;align-items:center;}
+.auth-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:38px;box-shadow:var(--shadow);max-width:420px;margin:0 auto;width:100%;}
+.auth-icon{width:52px;height:52px;border-radius:16px;background:var(--blue-tint);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 16px;}
+.auth-card h3{color:var(--blue-dark);font-size:22px;text-align:center;}
+.auth-sub{text-align:center;color:var(--ink-soft);font-size:14.5px;margin-top:8px;}
+.auth-row-between{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;margin-top:4px;flex-wrap:wrap;gap:8px;}
+.auth-row-between a,.auth-row-between button.linklike{color:var(--blue);font-weight:700;background:none;padding:0;min-height:auto;font-size:13.5px;}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-soft);}
+.checkbox-row input{width:16px;height:16px;}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:22px 0;color:var(--ink-soft);font-size:12.5px;text-transform:uppercase;letter-spacing:0.04em;}
+.auth-divider::before,.auth-divider::after{content:"";flex:1;height:1px;background:var(--border);}
+.auth-footnote{text-align:center;margin-top:20px;font-size:14px;color:var(--ink-soft);}
+.portal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;}
+.portal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+@media (max-width:700px){.portal-grid{grid-template-columns:1fr;}}
+
+/* Donate */
+.donate-hero{background:linear-gradient(135deg,var(--blue-dark) 0%, var(--blue) 100%);border-radius:var(--radius-lg);padding:52px 44px;color:#fff;}
+.donate-hero h2{font-size:clamp(26px,3.4vw,38px);}
+.donate-hero p{margin-top:14px;color:#D9D5CC;font-size:16px;max-width:560px;}
+.donate-stat-row{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px;}
+.donate-stat-row div{font-family:var(--font-display);font-size:28px;}
+.donate-stat-row span{display:block;font-family:var(--font-body);font-size:13px;color:#D9D5CC;font-weight:600;}
+.impact-item{display:flex;gap:14px;align-items:flex-start;}
+.impact-item .icon{flex-shrink:0;margin-bottom:0;}
+.donate-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:32px;box-shadow:var(--shadow);max-width:520px;margin:0 auto;}
+.freq-toggle{display:flex;background:var(--bg);border-radius:999px;padding:4px;gap:4px;}
+.freq-toggle button{flex:1;padding:10px 14px;min-height:40px;border-radius:999px;font-weight:700;font-size:14px;background:none;color:var(--ink-soft);}
+.freq-toggle button[aria-pressed="true"]{background:var(--blue-dark);color:#fff;}
+.amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;}
+.amount-btn{border:2px solid var(--border);border-radius:12px;padding:14px 8px;min-height:44px;text-align:center;font-weight:700;font-size:15px;color:var(--blue-dark);background:var(--surface);}
+.amount-btn[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-tint);}
+.custom-amount-row{display:flex;align-items:center;gap:8px;margin-top:12px;border:2px solid var(--border);border-radius:12px;padding:4px 14px;}
+.custom-amount-row.active{border-color:var(--coral);}
+.custom-amount-row span{font-weight:700;color:var(--blue-dark);}
+.custom-amount-row input{border:none;background:none;padding:10px 0;font-size:15px;width:100%;min-height:40px;}
+.impact-note{background:var(--green-tint);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--blue-dark);margin-top:16px;}
+.pay-method-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+.pay-method-row span{background:var(--blue-tint);color:var(--blue-dark);font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:999px;}
+
+/* Footer */
+.tt-footer{background:var(--blue-dark);color:#D9D5CC;padding:48px 0 26px;margin-top:20px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;}
+.footer-grid h5{color:#fff;font-family:var(--font-display);font-weight:600;font-size:15px;margin-bottom:14px;}
+.footer-grid li{margin-bottom:9px;font-size:14px;}
+.footer-grid button{background:none;color:inherit;font-size:14px;text-align:left;padding:0;min-height:auto;}
+.footer-grid a:hover,.footer-grid button:hover{color:#fff;}
+.footer-bottom{margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.12);font-size:13px;color:#B8B2A6;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:860px){
+  .tt-navlinks{display:none;}
+  .hamburger{display:flex;}
+  .cta-hide-mobile{display:none;}
+  .hero-grid,.tele-hero,.founder,.contact-grid{grid-template-columns:1fr;}
+  .grid-3,.grid-4,.svc-list,.testi-scroll,.footer-grid{grid-template-columns:1fr 1fr;}
+  .journey-steps,.journey-steps.four{grid-template-columns:1fr 1fr;}
+  .journey-line{display:none;}
+  .form-row,.svc-type-grid{grid-template-columns:1fr;}
+}
+@media (max-width:560px){
+  .grid-3,.grid-4,.grid-2,.svc-list,.testi-scroll,.footer-grid,.journey-steps,.journey-steps.four{grid-template-columns:1fr;}
+  .cta-band{padding:30px;}
+  .tt-nav{padding:12px 18px;}
+  .hero{padding:36px 0;}
+  .wizard-card{padding:22px;}
+}
+</style>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="tt-root">
+
+  <header class="tt-header">
+    <nav class="tt-nav wrap" aria-label="Main navigation">
+      <div class="tt-logo">
+        <svg class="tt-logo-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="20" cy="20" r="19" fill="#141414"/>
+          <path d="M11 24c1.5-6 4-9 9-9s7.5 3 9 9" stroke="#F2760F" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          <circle cx="14" cy="18" r="2.4" fill="#F2760F"/>
+          <circle cx="26" cy="18" r="2.4" fill="#FFFFFF"/>
+        </svg>
+        Talking Tipps
+      </div>
+      <div class="tt-navlinks" id="navlinks">
+        <button data-page="home" aria-current="page">Home</button>
+        <button data-page="about">About</button>
+        <button data-page="services">Services</button>
+        <button data-page="resources">Resources</button>
+        <button data-page="team">Team</button>
+        <button data-page="contact">Contact</button>
+      </div>
+      <div class="tt-cta-group">
+        <button class="btn btn-ghost cta-hide-mobile" onclick="ttGo('donate')">Donate</button>
+        <button class="btn btn-outline cta-hide-mobile" onclick="ttGo('login')">Client Login</button>
+        <button class="btn btn-primary" onclick="ttGo('book')">Book an Appointment</button>
+        <button class="hamburger" onclick="ttToggleMenu()" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobileMenu" style="display:none;flex-direction:column;padding:0 18px 18px;gap:2px;">
+      <button data-page="home" class="mobile-link" aria-current="page">Home</button>
+      <button data-page="about" class="mobile-link">About</button>
+      <button data-page="services" class="mobile-link">Services</button>
+      <button data-page="teletherapy" class="mobile-link">Teletherapy</button>
+      <button data-page="resources" class="mobile-link">Resources</button>
+      <button data-page="book" class="mobile-link">Book an Appointment</button>
+      <button data-page="team" class="mobile-link">Team</button>
+      <button data-page="contact" class="mobile-link">Contact</button>
+      <button data-page="donate" class="mobile-link">Donate</button>
+      <button data-page="login" class="mobile-link">Client Login</button>
+    </div>
+  </header>
+  <div class="pattern-strip" aria-hidden="true"></div>
+
+  <main id="main-content">
+
+  <!-- ============ HOME ============ -->
+  <div class="page active" id="page-home">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Speech &amp; Language Therapy · Ghana &amp; Across Africa</span>
+          <h1>Enhancing Speech, Language & Literacy</h1>
+          <p class="hero-sub">Talking Tipps provides evidence-based speech and language therapy for children and adults. Whether you're in Ghana, Kenya, or anywhere in Africa, we're here to help.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="ttGo('book')">Book an Appointment</button>
+            <button class="btn btn-outline" onclick="ttGo('teletherapy')">Learn About Teletherapy</button>
+          </div>
+          <div class="hero-trust">
+            <div>3<span>countries served</span></div>
+            <div>1:1<span>personalised therapy plans</span></div>
+            <div>100%<span>online or in-person</span></div>
+          </div>
+        </div>
+        <div class="wave-card">
+          <div class="wave-bubbles">
+            <div class="bubble b1">"My son couldn't say a word at age 3. Now he tells me about his whole school day."</div>
+            <div class="bubble b2">Let's break that down into small, doable steps together.</div>
+            <div class="bubble b3">Session notes shared after every visit — no jargon, just clear next steps.</div>
+          </div>
+          <svg class="waveform" viewBox="0 0 300 54" fill="none" aria-hidden="true">
+            <path d="M0 27 L18 27 L26 10 L34 44 L42 18 L50 36 L58 27 L76 27 L84 14 L92 40 L100 22 L108 32 L116 27 L134 27 L142 8 L150 46 L158 20 L166 34 L174 27 L192 27 L200 16 L208 38 L216 24 L224 30 L232 27 L250 27 L258 12 L266 42 L274 27 L300 27" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="svc-overview-h">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Our services</span>
+          <h2 id="svc-overview-h">Support for every stage of the communication journey</h2>
+          <p>From a toddler's first words to recovery after a stroke, we meet each client where they are — in plain language, with a plan that fits their home, school, or workplace.</p>
+        </div>
+        <div class="grid-4">
+          <div class="card">
+            <div class="icon icon-blue" aria-hidden="true">🧒</div>
+            <h3>Children's Services</h3>
+            <p>Speech delay, stammering, autism, AAC, and parent coaching — taught through play.</p>
+            <button class="card-link" onclick="ttGoSvc('children')">See children's services →</button>
+          </div>
+          <div class="card">
+            <div class="icon icon-coral" aria-hidden="true">🗣️</div>
+            <h3>Adult Services</h3>
+            <p>Stroke recovery, voice therapy, and cognitive-communication support.</p>
+            <button class="card-link" onclick="ttGoSvc('adults')">See adult services →</button>
+          </div>
+          <div class="card">
+            <div class="icon icon-green" aria-hidden="true">🏫</div>
+            <h3>Professional Services</h3>
+            <p>Teacher training, workshops, and disability-inclusion consulting.</p>
+            <button class="card-link" onclick="ttGoSvc('pro')">See professional services →</button>
+          </div>
+          <div class="card">
+            <div class="icon icon-blue" aria-hidden="true">💻</div>
+            <h3>Teletherapy</h3>
+            <p>Full sessions online, wherever you are in Africa.</p>
+            <button class="card-link" onclick="ttGo('teletherapy')">Learn about teletherapy →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="why-h">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Why choose Talking Tipps</span>
+          <h2 id="why-h">Care you can trust, wherever you're starting from</h2>
+        </div>
+        <div class="grid-4">
+          <div class="card"><div class="icon icon-blue" aria-hidden="true">🎓</div><h3>Evidence-based care</h3><p>Every plan is built on proven, professional therapy techniques.</p></div>
+          <div class="card"><div class="icon icon-coral" aria-hidden="true">🌍</div><h3>Accessible across Africa</h3><p>In-person in Accra, or online anywhere with an internet connection.</p></div>
+          <div class="card"><div class="icon icon-green" aria-hidden="true">💚</div><h3>Client-centred approach</h3><p>Compassionate care that treats you as a person, not a case file.</p></div>
+          <div class="card"><div class="icon icon-blue" aria-hidden="true">⭐</div><h3>Experienced therapists</h3><p>Qualified, registered professionals who genuinely love this work.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">How it works</span>
+          <h2 id="how-h">Three steps to your first session</h2>
+        </div>
+        <div class="journey">
+          <div class="journey-line" aria-hidden="true"></div>
+          <div class="journey-steps">
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">1</div><h4>Book an appointment online</h4><p>Pick a service and a time that suits you.</p></div>
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">2</div><h4>Have your initial consultation</h4><p>Meet your therapist and share your goals.</p></div>
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">3</div><h4>Start your therapy journey</h4><p>Begin regular sessions with a clear plan.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="testi-h">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Families &amp; clients</span>
+          <h2 id="testi-h">Real progress, in their own words</h2>
+        </div>
+        <div class="testi-scroll">
+          <div class="testi"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><p class="quote">"My son couldn't say a word at age 3. After 6 months with Talking Tipps, he's now saying sentences and making friends. This therapy changed our lives."</p><div class="who"><div class="avatar" aria-hidden="true">S</div>Sarah O., Parent — Accra, Ghana</div></div>
+          <div class="testi"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><p class="quote">"After my stroke I struggled to speak and felt so frustrated. Gifty helped me find my voice again. I can talk to my grandchildren now."</p><div class="who"><div class="avatar" aria-hidden="true">J</div>James K., Stroke survivor — Nairobi, Kenya</div></div>
+          <div class="testi"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><p class="quote">"Teletherapy works! My daughter looks forward to her sessions every week. Being able to do it from home in Kenya is a lifesaver."</p><div class="who"><div class="avatar" aria-hidden="true">F</div>Faith M., Parent — Kenya</div></div>
+        </div>
+        <div style="text-align:center;margin-top:28px;">
+          <button class="btn btn-outline" onclick="ttGo('team')">Read more stories</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="cta-band">
+          <div>
+            <h3>Ready to Get Started?</h3>
+            <p>Book Your First Session Today — no pressure, no jargon, just a clear next step.</p>
+          </div>
+          <button class="btn btn-primary" style="background:#fff;color:var(--blue-dark)" onclick="ttGo('book')">Book an Appointment</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <div class="page" id="page-about">
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">About Talking Tipps</span>
+        <h2 class="page-title">Our Story</h2>
+        <p class="lede">Talking Tipps Speech Therapy was founded by Gifty Ayoka, a passionate speech and language therapist with a vision to make quality speech therapy accessible to everyone in Africa. Starting in Ghana, we've helped hundreds of children and adults overcome communication challenges. Now, we're expanding across Africa through secure online teletherapy.</p>
+
+        <div class="grid-2" style="margin-top:40px;">
+          <div class="card"><h3 style="color:var(--blue-dark)">Our Mission</h3><p style="margin-top:10px;">To provide accessible, evidence-based speech and language therapy to individuals across Africa, empowering them to communicate confidently and achieve their full potential.</p></div>
+          <div class="card"><h3 style="color:var(--blue-dark)">Our Vision</h3><p style="margin-top:10px;">To become Africa's leading provider of speech and language therapy services, breaking down barriers to communication and making expert care available to every community.</p></div>
+        </div>
+
+        <div style="margin-top:44px;">
+          <span class="eyebrow">Our core values</span>
+          <div class="value-row" style="margin-top:14px;">
+            <span class="value-chip">Compassion</span>
+            <span class="value-chip">Excellence</span>
+            <span class="value-chip">Accessibility</span>
+            <span class="value-chip">Innovation</span>
+            <span class="value-chip">Impact</span>
+          </div>
+        </div>
+
+        <div class="founder" style="margin-top:52px;">
+          <div class="founder-photo">Photo of<br>Gifty Ayoka<br>Founder &amp; Lead Speech-Language Therapist</div>
+          <div>
+            <span class="eyebrow">Our founder</span>
+            <h3 style="font-size:24px;color:var(--blue-dark);margin-top:8px;">Gifty Ayoka</h3>
+            <p style="margin-top:12px;color:var(--ink-soft);font-size:15.5px;">Gifty founded Talking Tipps with a vision to make quality speech therapy accessible across Africa. She is passionate about helping children and adults communicate with confidence. Registered as a Speech and Language Therapist, her work spans pediatric speech therapy, autism, aphasia, and teletherapy across Ghana and beyond.</p>
+            <div class="value-row">
+              <span class="value-chip">Registered Speech &amp; Language Therapist</span>
+              <span class="value-chip">10+ years' experience in Africa</span>
+              <span class="value-chip">Pediatric, autism, aphasia &amp; teletherapy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Our experience</span>
+          <h2>Working across Ghana, Kenya, and beyond</h2>
+          <p>With years of experience working across Ghana and expanding into Kenya and other African countries, we understand the unique communication challenges faced by diverse communities. We're committed to making professional therapy accessible to everyone.</p>
+        </div>
+        <div class="stat-row">
+          <div>500+<span>clients supported</span></div>
+          <div>3<span>countries served</span></div>
+          <div>12+<span>partner schools &amp; organisations</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow">Partnerships &amp; achievements</span><h2>Trusted by schools, clinics, and families</h2></div>
+        <div class="grid-3">
+          <div class="card"><h3 style="font-size:16px;color:var(--blue-dark)">School partnerships</h3><p>Ongoing collaborations with international and local schools across Ghana on communication support.</p></div>
+          <div class="card"><h3 style="font-size:16px;color:var(--blue-dark)">Healthcare referrals</h3><p>Trusted by pediatricians and hospitals as a referral partner for speech and language assessment.</p></div>
+          <div class="card"><h3 style="font-size:16px;color:var(--blue-dark)">Community reach</h3><p>Workshops and training delivered to teachers, caregivers, and organisations across the region.</p></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ SERVICES ============ -->
+  <div class="page" id="page-services">
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">Our Services</span>
+        <h2 class="page-title">Clear support, explained in plain language</h2>
+        <p class="lede">We avoid clinical jargon wherever we can — here's what we help with, described the way we'd explain it to a worried parent or concerned adult.</p>
+
+        <div class="service-tabs" role="tablist" aria-label="Service categories" style="margin-top:32px;">
+          <button class="stab" role="tab" aria-selected="false" aria-controls="svc-children" data-svc="children">Children's Services</button>
+          <button class="stab" role="tab" aria-selected="false" aria-controls="svc-adults" data-svc="adults">Adult Services</button>
+          <button class="stab" role="tab" aria-selected="false" aria-controls="svc-pro" data-svc="pro">Professional Services</button>
+        </div>
+
+        <div class="svc-group" id="svc-children" role="tabpanel">
+          <div class="svc-list">
+            <div class="svc-item"><h4>Speech Delay</h4><p>For children who are late to start talking or have difficulty pronouncing words. Our therapists work with your child to develop clearer speech and build confidence.</p></div>
+            <div class="svc-item"><h4>Language Delay</h4><p>For children who understand language but struggle to express themselves. We help children build vocabulary, form sentences, and communicate effectively.</p></div>
+            <div class="svc-item"><h4>Autism Spectrum Disorder</h4><p>Supporting children with autism to develop communication skills, understand social cues, and express their needs, using evidence-based, child-friendly approaches.</p></div>
+            <div class="svc-item"><h4>Down Syndrome</h4><p>Helping children with Down syndrome develop speech and language skills through tailored, engaging therapy sessions that celebrate their unique abilities.</p></div>
+            <div class="svc-item"><h4>Cerebral Palsy</h4><p>Working with children who have cerebral palsy to improve their ability to communicate using speech, AAC devices, or other methods.</p></div>
+            <div class="svc-item"><h4>Stammering / Stuttering</h4><p>Building confidence in children who stutter, using proven techniques to help them speak more smoothly and without fear.</p></div>
+            <div class="svc-item"><h4>Speech Sound Disorders</h4><p>For children who struggle to produce certain sounds correctly. We help them learn proper articulation through fun, engaging exercises.</p></div>
+            <div class="svc-item"><h4>AAC (Alternative Communication)</h4><p>Supporting children who need alternative ways to communicate — using devices, pictures, and other tools to help them express themselves.</p></div>
+            <div class="svc-item"><h4>Early Intervention</h4><p>Early support for babies and toddlers at risk of speech or language delays. The earlier we start, the better the outcomes.</p></div>
+            <div class="svc-item"><h4>Parent Coaching</h4><p>Practical strategies to encourage communication at home — because therapy continues between sessions.</p></div>
+          </div>
+          <div class="svc-cta"><h3>Is this your child?</h3><button class="btn btn-primary" onclick="ttGo('book')">Book a consultation today</button></div>
+        </div>
+
+        <div class="svc-group" id="svc-adults" role="tabpanel">
+          <div class="svc-list">
+            <div class="svc-item"><h4>Aphasia (Stroke Rehabilitation)</h4><p>For adults who have lost language ability after a stroke. We help rebuild speaking, understanding, reading, and writing skills.</p></div>
+            <div class="svc-item"><h4>Dysarthria</h4><p>For adults with weak or unclear speech. We work on strengthening speech muscles and improving clarity.</p></div>
+            <div class="svc-item"><h4>Voice Therapy</h4><p>For adults with voice problems — whether from overuse, injury, or medical conditions. We help restore a healthy, strong voice.</p></div>
+            <div class="svc-item"><h4>Cognitive Communication Therapy</h4><p>For adults with cognitive challenges affecting communication. We work on memory, attention, problem-solving, and social communication.</p></div>
+          </div>
+          <div class="svc-cta"><h3>Is this you or a loved one?</h3><button class="btn btn-primary" onclick="ttGo('book')">Book a consultation today</button></div>
+        </div>
+
+        <div class="svc-group" id="svc-pro" role="tabpanel">
+          <div class="svc-list">
+            <div class="svc-item"><h4>School Consultations</h4><p>Working with schools to support students with communication needs. We assess, train staff, and create communication-friendly environments.</p></div>
+            <div class="svc-item"><h4>Teacher Training</h4><p>Equipping teachers with practical strategies to support students with speech, language, and communication difficulties in the classroom.</p></div>
+            <div class="svc-item"><h4>Corporate Communication Training</h4><p>Helping professionals communicate more effectively — public speaking, clarity, and interpersonal skills.</p></div>
+            <div class="svc-item"><h4>Workshops</h4><p>Group workshops on communication, disability inclusion, and supporting individuals with speech and language challenges.</p></div>
+            <div class="svc-item"><h4>Disability Inclusion Consulting</h4><p>Advising organisations on creating inclusive environments for people with communication difficulties.</p></div>
+          </div>
+          <div class="svc-cta"><h3>Want to bring this to your team?</h3><button class="btn btn-primary" onclick="ttGo('book')">Book a consultation today</button></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ TELETHERAPY ============ -->
+  <div class="page" id="page-teletherapy">
+    <section class="section">
+      <div class="wrap tele-hero">
+        <div>
+          <span class="eyebrow">Teletherapy</span>
+          <h2 class="page-title" style="margin-top:10px;">Real therapy, wherever you are</h2>
+          <p class="lede">Teletherapy brings expert speech and language therapy directly to you — wherever you are in Africa. Using secure video sessions, our qualified therapists provide the same high-quality care as in-person sessions, without the need to travel.</p>
+          <ul class="checklist" style="margin-top:22px;">
+            <li>Access from anywhere in Africa</li>
+            <li>No travel time or costs</li>
+            <li>Comfort of home, flexible scheduling</li>
+            <li>Continuity of care, same quality as in-person</li>
+          </ul>
+          <div class="country-pills">
+            <span>Ghana</span>
+            <span>Kenya</span>
+            <span class="dim">+ across Africa</span>
+          </div>
+        </div>
+        <div class="card" style="padding:30px;">
+          <h3 style="color:var(--blue-dark);font-size:17px;">What you need</h3>
+          <ul class="checklist" style="margin-top:12px;">
+            <li>Computer, tablet, or smartphone with a camera</li>
+            <li>Good internet connection (10 Mbps download / 1 Mbps upload recommended)</li>
+            <li>A quiet, private space</li>
+            <li>Webcam and microphone — a headset is recommended</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow">How it works</span><h2>Five simple steps to your first online session</h2></div>
+        <div class="journey">
+          <div class="journey-line" aria-hidden="true"></div>
+          <div class="journey-steps" style="grid-template-columns:repeat(5,1fr);">
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">1</div><h4>Book online</h4><p>Choose your service and a time that suits you.</p></div>
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">2</div><h4>Get your link</h4><p>Receive your session link via email.</p></div>
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">3</div><h4>Connect</h4><p>Join via secure video at your scheduled time.</p></div>
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">4</div><h4>Attend</h4><p>Take your session from home.</p></div>
+            <div class="journey-step"><div class="journey-dot" aria-hidden="true">5</div><h4>Practice</h4><p>Continue progress with exercises between sessions.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap grid-2">
+        <div class="card">
+          <h3 style="color:var(--blue-dark);font-size:18px;">Is it effective?</h3>
+          <p style="margin-top:10px;color:var(--ink-soft);">Yes. Research shows that teletherapy is just as effective as in-person therapy for many speech and language conditions. Our therapists use interactive tools, engaging activities, and proven techniques to deliver excellent results.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--blue-dark);font-size:18px;">Privacy &amp; confidentiality</h3>
+          <p style="margin-top:10px;color:var(--ink-soft);">Your privacy is our priority. All sessions are conducted on a secure, encrypted platform, separate from this website. We comply with professional privacy standards to protect your personal and health information.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow">Common questions</span><h2>Teletherapy FAQ</h2></div>
+        <div id="faqList" style="max-width:720px;">
+          <div class="faq-item" data-open="true">
+            <button class="faq-q" onclick="ttFaq(this)" aria-expanded="true"><span>Will teletherapy work for my child?</span><span class="faq-plus" aria-hidden="true">+</span></button>
+            <div class="faq-a"><p>For most speech and language goals, teletherapy works very well, especially with an engaged parent or caregiver nearby to help.</p></div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" onclick="ttFaq(this)" aria-expanded="false"><span>What if I have technical problems?</span><span class="faq-plus" aria-hidden="true">+</span></button>
+            <div class="faq-a"><p>Our team can help you troubleshoot before your first session, and we'll always offer to reschedule if a connection issue interrupts a session.</p></div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" onclick="ttFaq(this)" aria-expanded="false"><span>How long are sessions?</span><span class="faq-plus" aria-hidden="true">+</span></button>
+            <div class="faq-a"><p>Most sessions run 30–45 minutes, depending on the service and your therapist's recommendation.</p></div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" onclick="ttFaq(this)" aria-expanded="false"><span>How much does it cost?</span><span class="faq-plus" aria-hidden="true">+</span></button>
+            <div class="faq-a"><p>Pricing depends on the service and session length. You'll see full pricing before you confirm your booking.</p></div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" onclick="ttFaq(this)" aria-expanded="false"><span>Do I need to do anything to prepare?</span><span class="faq-plus" aria-hidden="true">+</span></button>
+            <div class="faq-a"><p>Just find a quiet, private space and test your camera and microphone a few minutes before your session.</p></div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" onclick="ttFaq(this)" aria-expanded="false"><span>Can I use my phone for sessions?</span><span class="faq-plus" aria-hidden="true">+</span></button>
+            <div class="faq-a"><p>Yes — a smartphone with a stable internet connection works well, though a tablet or computer gives a bit more room for activities.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="cta-band">
+          <div><h3>Ready to try teletherapy?</h3><p>Book your first session today. No travel required — expert care is just a click away.</p></div>
+          <button class="btn btn-primary" style="background:#fff;color:var(--blue-dark)" onclick="ttGo('book')">Book an Appointment</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ BOOK (wizard) ============ -->
+  <div class="page" id="page-book">
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">Book an Appointment</span>
+        <h2 class="page-title" style="margin-top:10px;">Let's find the right time for you</h2>
+        <p class="lede">A few quick steps and we'll confirm your appointment by email.</p>
+
+        <div class="wizard-card" style="margin-top:32px;">
+          <div class="wizard-progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="wizardProgress">
+            <div class="seg done"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div>
+          </div>
+
+          <div id="wizardForm">
+            <!-- Step 1 -->
+            <div class="wizard-step active" data-step="1">
+              <div class="wizard-step-label">Step 1 of 4 — Service type</div>
+              <h3 style="color:var(--blue-dark);font-size:20px;">What kind of support are you looking for?</h3>
+              <div class="svc-type-grid">
+                <button class="svc-type-card" data-type="Children's Therapy" onclick="ttPickType(this)" aria-pressed="false"><h4>Children's Therapy</h4><p>Speech &amp; language support for ages 0–17</p></button>
+                <button class="svc-type-card" data-type="Adult Therapy" onclick="ttPickType(this)" aria-pressed="false"><h4>Adult Therapy</h4><p>Stroke recovery, voice, cognitive-communication</p></button>
+                <button class="svc-type-card" data-type="Professional Services" onclick="ttPickType(this)" aria-pressed="false"><h4>Professional Services</h4><p>Schools, workplaces &amp; organisations</p></button>
+                <button class="svc-type-card" data-type="Teletherapy Session" onclick="ttPickType(this)" aria-pressed="false"><h4>Teletherapy Session</h4><p>Any service, delivered online</p></button>
+              </div>
+              <div class="wizard-actions"><span></span><button class="btn btn-primary" id="toStep2" disabled onclick="ttStep(2)">Next</button></div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="wizard-step" data-step="2">
+              <div class="wizard-step-label">Step 2 of 4 — Details, date &amp; time</div>
+              <h3 style="color:var(--blue-dark);font-size:20px;">Choose your specific service and time</h3>
+              <div class="form-row" style="margin-top:18px;">
+                <div class="form-field full"><label for="svcSelect">Specific service</label>
+                  <select id="svcSelect"></select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field full"><label for="therapistSelect">Preferred therapist</label>
+                  <select id="therapistSelect">
+                    <option>No preference</option>
+                    <option>Gifty Ayoka — Founder, Paediatric &amp; adult communication</option>
+                    <option>Nana Adjei — Stammering &amp; stroke rehabilitation</option>
+                    <option>Fatima Wanjiru — Early intervention &amp; teletherapy (Kenya)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field"><label for="dateInput">Preferred date</label><input type="date" id="dateInput"></div>
+                <div class="form-field"><label for="timeInput">Preferred time</label><input type="time" id="timeInput"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-field full"><label for="tzSelect">Time zone</label>
+                  <select id="tzSelect"><option>GMT (Ghana)</option><option>EAT (Kenya)</option><option>Other</option></select>
+                </div>
+              </div>
+              <div class="wizard-actions"><button class="btn btn-outline" onclick="ttStep(1)">Back</button><button class="btn btn-primary" onclick="ttStep(3)">Next</button></div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="wizard-step" data-step="3">
+              <div class="wizard-step-label">Step 3 of 4 — Your information</div>
+              <h3 style="color:var(--blue-dark);font-size:20px;">Tell us a bit about you</h3>
+              <div class="form-row" style="margin-top:18px;">
+                <div class="form-field"><label for="fullName">Full name</label><input type="text" id="fullName" placeholder="e.g. Ama Owusu" autocomplete="name"></div>
+                <div class="form-field"><label for="clientAge">Client's age (if applicable)</label><input type="text" id="clientAge" placeholder="e.g. 4 years"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-field"><label for="email">Email address</label><input type="email" id="email" placeholder="you@example.com" autocomplete="email"></div>
+                <div class="form-field"><label for="phone">Phone number</label><input type="tel" id="phone" placeholder="+233 ..." autocomplete="tel"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-field full"><label for="concern">Brief description of the concern</label><textarea id="concern" rows="3" placeholder="e.g. My 4-year-old is not yet combining words"></textarea></div>
+              </div>
+              <div class="form-row">
+                <div class="form-field"><label for="heardFrom">How did you hear about us?</label>
+                  <select id="heardFrom"><option>Google search</option><option>Social media</option><option>Friend / family referral</option><option>School or doctor</option><option>Other</option></select>
+                </div>
+                <div class="form-field"><label for="prefContact">Preferred contact method</label>
+                  <select id="prefContact"><option>Email</option><option>Phone</option><option>WhatsApp</option></select>
+                </div>
+              </div>
+              <div class="wizard-actions"><button class="btn btn-outline" onclick="ttStep(2)">Back</button><button class="btn btn-primary" onclick="ttStep(4)">Review booking</button></div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="wizard-step" data-step="4">
+              <div class="wizard-step-label">Step 4 of 4 — Review &amp; confirm</div>
+              <h3 style="color:var(--blue-dark);font-size:20px;">Please review your appointment</h3>
+              <div style="margin-top:18px;" id="reviewSummary"></div>
+              <p class="form-hint" style="margin-top:14px;">This form is a design preview. A live site would connect to a secure, HIPAA-ready booking and payment system — no health information is stored here.</p>
+              <div class="wizard-actions"><button class="btn btn-outline" onclick="ttStep(3)">Back</button><button class="btn btn-primary" onclick="ttBook()">Confirm appointment</button></div>
+            </div>
+          </div>
+
+          <div class="confirm-box" id="confirmBox">
+            <div class="confirm-tick" aria-hidden="true">✓</div>
+            <h3 style="color:var(--blue-dark);font-size:20px;">Request received!</h3>
+            <p style="margin-top:10px;color:var(--ink-soft);">We've sent a confirmation to your email with your appointment summary, session link (for teletherapy), and an option to add it to your calendar. Our team will follow up within one business day.</p>
+            <button class="btn btn-outline" style="margin-top:20px;" onclick="ttGo('home')">Back to home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ TEAM ============ -->
+  <div class="page" id="page-team">
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">Meet Our Team</span>
+        <h2 class="page-title">Therapists who take the time to understand you</h2>
+        <div class="grid-3" style="margin-top:36px;">
+          <div class="card team-card">
+            <div class="team-photo">Photo of<br>Gifty Ayoka</div>
+            <h3>Gifty Ayoka</h3>
+            <p>Founder &amp; Lead Speech-Language Therapist</p>
+            <div class="team-meta">
+              <div><b>Qualifications:</b> Registered Speech &amp; Language Therapist</div>
+              <div><b>Experience:</b> 10+ years across Ghana &amp; Africa</div>
+              <div><b>Specialties:</b> Paediatric speech therapy, autism, aphasia, teletherapy</div>
+              <div><b>Languages:</b> English, Twi</div>
+              <div style="margin-top:10px;color:var(--ink-soft);">"Gifty founded Talking Tipps with a vision to make quality speech therapy accessible across Africa. She is passionate about helping children and adults communicate with confidence."</div>
+            </div>
+          </div>
+          <div class="card team-card">
+            <div class="team-photo">Photo of<br>Nana Adjei</div>
+            <h3>Nana Adjei</h3>
+            <p>Speech-Language Therapist</p>
+            <div class="team-meta">
+              <div><b>Qualifications:</b> Registered Speech &amp; Language Therapist</div>
+              <div><b>Experience:</b> 6 years, clinics &amp; schools in Ghana</div>
+              <div><b>Specialties:</b> Stammering, stroke rehabilitation (aphasia)</div>
+              <div><b>Languages:</b> English, Twi, Ga</div>
+              <div style="margin-top:10px;color:var(--ink-soft);">A warm, compassionate professional dedicated to helping clients find their voice, combining evidence-based techniques with genuine care for each individual.</div>
+            </div>
+          </div>
+          <div class="card team-card">
+            <div class="team-photo">Photo of<br>Fatima Wanjiru</div>
+            <h3>Fatima Wanjiru</h3>
+            <p>Teletherapy Lead, Kenya</p>
+            <div class="team-meta">
+              <div><b>Qualifications:</b> Registered Speech-Language Therapist</div>
+              <div><b>Experience:</b> 5 years, early intervention &amp; teletherapy</div>
+              <div><b>Specialties:</b> Early intervention, parent coaching, AAC</div>
+              <div><b>Languages:</b> English, Swahili</div>
+              <div style="margin-top:10px;color:var(--ink-soft);">Fatima leads our Kenya-based teletherapy practice, helping families build strong communication foundations from home.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ RESOURCES ============ -->
+  <div class="page" id="page-resources">
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">Resources</span>
+        <h2 class="page-title">Practical guidance for families &amp; educators</h2>
+        <p class="lede">Free articles, milestones, and downloadable guides to help you support communication at home, at school, or on the road to recovery.</p>
+
+        <div class="section-head" style="margin-top:44px;"><span class="eyebrow">Popular articles</span><h2>Start here</h2></div>
+        <div class="grid-3">
+          <div class="card"><span class="res-tag">Children</span><h3>10 Signs Your Child May Need Speech Therapy</h3><p>What to look out for, and when to seek an assessment.</p></div>
+          <div class="card"><span class="res-tag">At home</span><h3>How to Support Your Child's Communication at Home</h3><p>Simple, everyday habits that make a real difference.</p></div>
+          <div class="card"><span class="res-tag">Getting started</span><h3>What to Expect in Your First Speech Therapy Session</h3><p>A friendly walkthrough so nothing feels unfamiliar.</p></div>
+          <div class="card"><span class="res-tag">Autism</span><h3>Understanding Autism Spectrum Disorder and Communication</h3><p>A clear, compassionate introduction for families.</p></div>
+          <div class="card"><span class="res-tag">Adults</span><h3>Speech Therapy After a Stroke: What You Need to Know</h3><p>What recovery can look like, and how therapy helps.</p></div>
+          <div class="card"><span class="res-tag">Teletherapy</span><h3>Teletherapy vs In-Person Therapy: What's Right for You?</h3><p>An honest comparison to help you choose.</p></div>
+        </div>
+
+        <div class="section-head" style="margin-top:52px;"><span class="eyebrow">Communication milestones</span><h2>What to expect, age by age</h2></div>
+        <div style="max-width:720px;">
+          <div class="milestone-row"><div class="age">6 months</div><p>Babbles and responds to their name.</p></div>
+          <div class="milestone-row"><div class="age">12 months</div><p>Says one or two simple words like "mama."</p></div>
+          <div class="milestone-row"><div class="age">18 months</div><p>Uses a small vocabulary and points to ask for things.</p></div>
+          <div class="milestone-row"><div class="age">2 years</div><p>Combines two words into short phrases.</p></div>
+          <div class="milestone-row"><div class="age">3 years</div><p>Speaks in short sentences that others can mostly understand.</p></div>
+          <div class="milestone-row"><div class="age">4 years</div><p>Tells simple stories and asks lots of questions.</p></div>
+          <div class="milestone-row"><div class="age">5 years</div><p>Speaks clearly in full sentences and follows multi-step instructions.</p></div>
+        </div>
+
+        <div class="section-head" style="margin-top:52px;"><span class="eyebrow">Downloads</span><h2>Free guides</h2></div>
+        <div class="grid-3">
+          <div class="card"><h3 style="font-size:16px;color:var(--blue-dark)">10 Tips for Better Communication at Home</h3><p>A printable PDF guide.</p></div>
+          <div class="card"><h3 style="font-size:16px;color:var(--blue-dark)">Communication Milestones Checklist</h3><p>Track progress by age, at a glance.</p></div>
+          <div class="card"><h3 style="font-size:16px;color:var(--blue-dark)">Getting Ready for Your First Session</h3><p>A short checklist so you feel prepared.</p></div>
+        </div>
+
+        <div class="newsletter-box" style="margin-top:52px;">
+          <div>
+            <h3 style="color:var(--blue-dark);font-size:19px;">Get monthly tips and updates</h3>
+            <p style="margin-top:6px;color:var(--ink-soft);font-size:14.5px;">Practical advice from our therapists, straight to your inbox.</p>
+          </div>
+          <form onsubmit="return false;">
+            <label for="newsEmail" class="sr-only">Email address</label>
+            <input type="email" id="newsEmail" placeholder="you@example.com">
+            <button class="btn btn-primary" type="submit">Sign up</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ CONTACT ============ -->
+  <div class="page" id="page-contact">
+    <section class="section">
+      <div class="wrap contact-grid">
+        <div>
+          <span class="eyebrow">Contact Us</span>
+          <h2 class="page-title">We'd love to hear from you</h2>
+          <div class="contact-row"><div class="icon icon-blue" aria-hidden="true">📍</div><div><strong>Office</strong><br><span style="color:var(--ink-soft)">East Legon, Accra, Ghana</span></div></div>
+          <div class="contact-row"><div class="icon icon-coral" aria-hidden="true">✉️</div><div><strong>Email</strong><br><span style="color:var(--ink-soft)">info@talkingtipps.com</span></div></div>
+          <div class="contact-row"><div class="icon icon-green" aria-hidden="true">📞</div><div><strong>Phone / WhatsApp</strong><br><span style="color:var(--ink-soft)">+233 20 000 0000</span></div></div>
+          <div class="contact-row"><div class="icon icon-blue" aria-hidden="true">🕘</div><div><strong>Business hours</strong><br><span style="color:var(--ink-soft)">Monday–Friday, 8:00 AM–6:00 PM GMT</span></div></div>
+          <div class="urgent-box">Need immediate help? Call us directly at <strong>+233 20 000 0000</strong>.</div>
+          <div class="social-row" aria-label="Social media links">
+            <a href="#" aria-label="Talking Tipps on Facebook">FB</a>
+            <a href="#" aria-label="Talking Tipps on Instagram">IG</a>
+            <a href="#" aria-label="Talking Tipps on LinkedIn">IN</a>
+            <a href="#" aria-label="Talking Tipps on YouTube">YT</a>
+          </div>
+          <div class="map-box" style="margin-top:20px;">Google Map — Accra Office</div>
+        </div>
+        <div class="form-card" style="background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:32px;box-shadow:var(--shadow);">
+          <div class="form-field full" style="margin-bottom:14px;"><label for="cName">Your name</label><input type="text" id="cName" placeholder="Your name" autocomplete="name"></div>
+          <div class="form-field full" style="margin-bottom:14px;"><label for="cEmail">Your email</label><input type="email" id="cEmail" placeholder="you@example.com" autocomplete="email"></div>
+          <div class="form-field full" style="margin-bottom:14px;"><label for="cPhone">Phone number</label><input type="tel" id="cPhone" placeholder="+233 ..." autocomplete="tel"></div>
+          <div class="form-field full" style="margin-bottom:14px;"><label for="cSubject">Subject</label>
+            <select id="cSubject"><option>General enquiry</option><option>Children's therapy</option><option>Adult therapy</option><option>Teletherapy</option><option>Professional services</option></select>
+          </div>
+          <div class="form-field full" style="margin-bottom:14px;"><label for="cMsg">Your message</label><textarea id="cMsg" rows="4" placeholder="How can we help?"></textarea></div>
+          <div class="form-field full" style="margin-bottom:14px;"><label for="cHeard">How did you hear about us?</label>
+            <select id="cHeard"><option>Google search</option><option>Social media</option><option>Referral</option><option>Other</option></select>
+          </div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;">Send message</button>
+          <p class="form-hint" style="margin-top:12px;">We respect your privacy. Your information will not be shared. We reply within one business day.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ DONATE ============ -->
+  <div class="page" id="page-donate">
+    <section class="section">
+      <div class="wrap">
+        <div class="donate-hero">
+          <span class="eyebrow" style="color:#D9D5CC;">Give Talking Tipps</span>
+          <h2 style="margin-top:10px;">Help more children and adults find their voice</h2>
+          <p>Many families across Ghana and Kenya can't afford regular speech therapy. Your donation funds subsidised sessions, AAC devices, and teletherapy access for families who need it most.</p>
+          <div class="donate-stat-row">
+            <div>120+<span>subsidised sessions funded</span></div>
+            <div>35<span>AAC devices provided</span></div>
+            <div>2<span>countries reached</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow">Where your donation goes</span><h2>Every gift creates real, measurable impact</h2></div>
+        <div class="grid-3">
+          <div class="card impact-item">
+            <div class="icon icon-blue" aria-hidden="true">🎁</div>
+            <div><h3 style="font-size:16px;">Subsidised therapy</h3><p>Covers session costs for families who couldn't otherwise access care.</p></div>
+          </div>
+          <div class="card impact-item">
+            <div class="icon icon-coral" aria-hidden="true">📱</div>
+            <div><h3 style="font-size:16px;">AAC devices &amp; tools</h3><p>Provides communication devices for non-verbal children and adults.</p></div>
+          </div>
+          <div class="card impact-item">
+            <div class="icon icon-green" aria-hidden="true">🌍</div>
+            <div><h3 style="font-size:16px;">Teletherapy access</h3><p>Funds data and equipment so rural families can join online sessions.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="donate-card" id="donateForm">
+          <h3 style="color:var(--blue-dark);font-size:20px;text-align:center;">Make a donation</h3>
+          <p class="auth-sub">100% of your gift supports client care and community programmes.</p>
+
+          <div class="freq-toggle" style="margin-top:22px;" role="group" aria-label="Donation frequency">
+            <button type="button" aria-pressed="true" data-freq="once" onclick="ttSetFreq(this)">One-time</button>
+            <button type="button" aria-pressed="false" data-freq="monthly" onclick="ttSetFreq(this)">Monthly</button>
+          </div>
+
+          <div class="amount-grid" role="group" aria-label="Donation amount">
+            <button type="button" class="amount-btn" data-amt="10" onclick="ttSetAmt(this)">$10</button>
+            <button type="button" class="amount-btn" aria-pressed="true" data-amt="25" onclick="ttSetAmt(this)">$25</button>
+            <button type="button" class="amount-btn" data-amt="50" onclick="ttSetAmt(this)">$50</button>
+            <button type="button" class="amount-btn" data-amt="100" onclick="ttSetAmt(this)">$100</button>
+            <button type="button" class="amount-btn" data-amt="250" onclick="ttSetAmt(this)">$250</button>
+            <button type="button" class="amount-btn" data-amt="custom" onclick="ttSetAmt(this)">Custom</button>
+          </div>
+          <div class="custom-amount-row" id="customAmountRow" style="display:none;">
+            <span>$</span>
+            <label for="customAmount" class="sr-only">Custom donation amount</label>
+            <input type="number" id="customAmount" min="1" placeholder="Enter amount" oninput="ttCustomAmt(this.value)">
+          </div>
+
+          <p class="impact-note" id="impactNote">$25 can cover the cost of one subsidised teletherapy session for a family in need.</p>
+
+          <div class="form-row" style="margin-top:22px;">
+            <div class="form-field"><label for="donorName">Full name</label><input type="text" id="donorName" placeholder="Your name" autocomplete="name"></div>
+            <div class="form-field"><label for="donorEmail">Email address</label><input type="email" id="donorEmail" placeholder="you@example.com" autocomplete="email"></div>
+          </div>
+          <label class="checkbox-row" style="margin-top:4px;"><input type="checkbox" id="anonDonation"> Make this donation anonymous</label>
+
+          <div style="margin-top:16px;">
+            <div class="form-field"><label>Payment method</label></div>
+            <div class="pay-method-row">
+              <span>Card</span><span>Mobile Money</span><span>Bank Transfer</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:24px;" onclick="ttDonate()" id="donateBtn">Donate $25</button>
+          <p class="form-hint" style="text-align:center;margin-top:14px;">This form is a design preview. A live version would connect to a secure, PCI-compliant payment processor.</p>
+        </div>
+
+        <div class="donate-card" id="donateConfirm" style="display:none;text-align:center;">
+          <div class="confirm-tick" aria-hidden="true">✓</div>
+          <h3 style="color:var(--blue-dark);font-size:20px;">Thank you for your generosity!</h3>
+          <p style="margin-top:10px;color:var(--ink-soft);">Your donation helps us bring speech therapy to families across Ghana and Kenya who need it most. A receipt has been sent to your email.</p>
+          <button class="btn btn-outline" style="margin-top:20px;" onclick="ttGo('home')">Back to home</button>
+        </div>
+
+        <div class="section-head" style="margin-top:56px;text-align:center;margin-left:auto;margin-right:auto;">
+          <span class="eyebrow" style="justify-content:center;">Giving as an organisation?</span>
+          <h2>Corporate &amp; partner giving</h2>
+          <p>We partner with businesses, foundations, and NGOs to expand access to speech therapy across Africa. <button class="linklike" style="background:none;color:var(--blue);font-weight:700;padding:0;min-height:auto;display:inline;" onclick="ttGo('contact')">Get in touch</button> to discuss a partnership.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ LOGIN ============ -->
+  <div class="page" id="page-login">
+    <section class="auth-section">
+      <div class="wrap">
+
+        <div class="auth-card" id="loginView">
+          <div class="auth-icon" aria-hidden="true">🔒</div>
+          <h3>Client Login</h3>
+          <p class="auth-sub">Sign in to view appointments, session notes, and invoices.</p>
+
+          <form id="loginForm" style="margin-top:26px;" onsubmit="return false;">
+            <div class="form-field full" style="margin-bottom:14px;">
+              <label for="loginEmail">Email address</label>
+              <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" required>
+            </div>
+            <div class="form-field full" style="margin-bottom:8px;">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+            <div class="auth-row-between">
+              <label class="checkbox-row"><input type="checkbox" id="rememberMe"> Remember me</label>
+              <button type="button" class="linklike" onclick="ttGo('login-reset')">Forgot password?</button>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;margin-top:20px;" onclick="ttLogin()">Log in</button>
+          </form>
+
+          <div class="auth-divider">or</div>
+          <button class="btn btn-outline" style="width:100%;justify-content:center;" onclick="ttGo('book')">Book an appointment instead</button>
+
+          <p class="auth-footnote">New to Talking Tipps? <button class="linklike" style="background:none;color:var(--blue);font-weight:700;padding:0;min-height:auto;" onclick="ttGo('contact')">Contact us to set up an account</button></p>
+          <p class="form-hint" style="text-align:center;margin-top:16px;">This is a design preview. A live client portal would use secure, encrypted authentication and would not store health records on this website.</p>
+        </div>
+
+        <!-- Portal preview shown after "logging in" -->
+        <div class="auth-card" id="portalView" style="display:none;max-width:760px;">
+          <div class="portal-header">
+            <div>
+              <h3 style="text-align:left;">Welcome back<span id="portalName"></span></h3>
+              <p class="auth-sub" style="text-align:left;margin-top:4px;">Here's a preview of what your client portal could show.</p>
+            </div>
+            <button class="btn btn-outline" onclick="ttLogout()">Log out</button>
+          </div>
+          <div class="portal-grid">
+            <div class="card"><div class="icon icon-blue" aria-hidden="true">📅</div><h3 style="font-size:16px;">Upcoming appointment</h3><p>Teletherapy session — details would appear here.</p></div>
+            <div class="card"><div class="icon icon-coral" aria-hidden="true">📝</div><h3 style="font-size:16px;">Session notes</h3><p>Notes from your therapist after each visit.</p></div>
+            <div class="card"><div class="icon icon-green" aria-hidden="true">💳</div><h3 style="font-size:16px;">Invoices &amp; payments</h3><p>View and pay outstanding invoices securely.</p></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ PASSWORD RESET ============ -->
+  <div class="page" id="page-login-reset">
+    <section class="auth-section">
+      <div class="wrap">
+        <div class="auth-card">
+          <div class="auth-icon" aria-hidden="true">✉️</div>
+          <h3>Reset your password</h3>
+          <p class="auth-sub">Enter your email and we'll send you a link to reset your password.</p>
+          <form style="margin-top:26px;" onsubmit="return false;">
+            <div class="form-field full" style="margin-bottom:18px;">
+              <label for="resetEmail">Email address</label>
+              <input type="email" id="resetEmail" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;" onclick="ttResetSent()">Send reset link</button>
+          </form>
+          <p class="auth-footnote" id="resetConfirm" style="display:none;color:var(--green);font-weight:700;">If an account exists for that email, a reset link is on its way.</p>
+          <p class="auth-footnote"><button class="linklike" style="background:none;color:var(--blue);font-weight:700;padding:0;min-height:auto;" onclick="ttGo('login')">Back to login</button></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  </main>
+
+  <footer class="tt-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <div class="tt-logo" style="color:#fff;">Talking Tipps</div>
+        <p style="margin-top:10px;font-size:14px;color:#D9D5CC;max-width:260px;">Speech &amp; language therapy for children and adults — in person in Accra, or online across Africa.</p>
+      </div>
+      <div><h5>Services</h5><ul>
+        <li><button onclick="ttGoSvc('children')">Children's Therapy</button></li>
+        <li><button onclick="ttGoSvc('adults')">Adult Rehabilitation</button></li>
+        <li><button onclick="ttGo('teletherapy')">Teletherapy</button></li>
+        <li><button onclick="ttGoSvc('pro')">Corporate Training</button></li>
+      </ul></div>
+      <div><h5>Company</h5><ul>
+        <li><button onclick="ttGo('about')">About Us</button></li>
+        <li><button onclick="ttGo('team')">Our Team</button></li>
+        <li><button onclick="ttGo('resources')">Resources</button></li>
+        <li><button onclick="ttGo('donate')">Donate</button></li>
+      </ul></div>
+      <div><h5>Get in touch</h5><ul><li>info@talkingtipps.com</li><li>+233 20 000 0000</li><li>East Legon, Accra</li></ul></div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© 2026 Talking Tipps Speech Therapy. All rights reserved.</span>
+      <span>Design prototype — not a live website</span>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/233200000000?text=Hi%2C%20I%27m%20interested%20in%20speech%20therapy%20services..." aria-label="Chat with us on WhatsApp" target="_blank" rel="noopener">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3.1.8.8-3-.2-.3A8 8 0 1112 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 01-1.9-1.2 7 7 0 01-1.3-1.6c-.1-.2 0-.4.1-.5l.4-.4.2-.3v-.3c0-.1-.5-1.3-.7-1.7s-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 2.9 2.9 0 00-.9 2.2 5.1 5.1 0 001.1 2.7 11.6 11.6 0 004.5 4c.6.3 1.1.4 1.5.5a3.6 3.6 0 001.6-.1 2.6 2.6 0 001.7-1.2 2.1 2.1 0 00.1-1.2c0-.1-.2-.2-.4-.3z"/></svg>
+  </a>
+</div>
+
+<script>
+(function(){
+  var SERVICE_MAP = {
+    "Children's Therapy": ["Speech Delay","Language Delay","Autism Spectrum Disorder","Down Syndrome","Cerebral Palsy","Stammering / Stuttering","Speech Sound Disorders","AAC (Alternative Communication)","Early Intervention","Parent Coaching"],
+    "Adult Therapy": ["Aphasia (Stroke Rehabilitation)","Dysarthria","Voice Therapy","Cognitive Communication Therapy"],
+    "Professional Services": ["School Consultations","Teacher Training","Corporate Communication Training","Workshops","Disability Inclusion Consulting"],
+    "Teletherapy Session": ["Free 15-minute consultation","Children's online session","Adult online session"]
+  };
+  var wizardState = {};
+
+  function ttGo(page){
+    document.querySelectorAll('.tt-root .page').forEach(function(p){p.classList.remove('active');});
+    document.getElementById('page-'+page).classList.add('active');
+    document.querySelectorAll('#navlinks button, .mobile-link').forEach(function(b){
+      if(b.dataset.page === page){ b.setAttribute('aria-current','page'); } else { b.removeAttribute('aria-current'); }
+    });
+    document.getElementById('mobileMenu').style.display = 'none';
+    document.querySelector('.hamburger').setAttribute('aria-expanded','false');
+    var root = document.querySelector('.tt-root');
+    if(root) root.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  window.ttGo = ttGo;
+
+  window.ttGoSvc = function(which){
+    ttGo('services');
+    document.querySelectorAll('.stab').forEach(function(t){t.setAttribute('aria-selected', t.dataset.svc===which ? 'true':'false');});
+    document.querySelectorAll('.svc-group').forEach(function(g){g.classList.toggle('active', g.id === 'svc-'+which);});
+  };
+
+  window.ttToggleMenu = function(){
+    var m = document.getElementById('mobileMenu');
+    var open = (m.style.display === 'flex');
+    m.style.display = open ? 'none' : 'flex';
+    document.querySelector('.hamburger').setAttribute('aria-expanded', String(!open));
+  };
+
+  document.querySelectorAll('#navlinks button, .mobile-link').forEach(function(b){
+    b.addEventListener('click', function(){ ttGo(b.dataset.page); });
+  });
+
+  document.querySelectorAll('.stab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.stab').forEach(function(t){t.setAttribute('aria-selected','false');});
+      document.querySelectorAll('.svc-group').forEach(function(g){g.classList.remove('active');});
+      tab.setAttribute('aria-selected','true');
+      document.getElementById('svc-'+tab.dataset.svc).classList.add('active');
+    });
+  });
+  // default open first tab
+  document.querySelector('.stab[data-svc="children"]').click();
+
+  window.ttFaq = function(btn){
+    var item = btn.parentElement;
+    var wasOpen = item.dataset.open === 'true';
+    item.parentElement.querySelectorAll('.faq-item').forEach(function(f){
+      f.dataset.open = 'false';
+      f.querySelector('.faq-q').setAttribute('aria-expanded','false');
+    });
+    if(!wasOpen){ item.dataset.open = 'true'; btn.setAttribute('aria-expanded','true'); }
+  };
+
+  // ----- Booking wizard -----
+  window.ttPickType = function(el){
+    document.querySelectorAll('.svc-type-card').forEach(function(c){c.setAttribute('aria-pressed','false');});
+    el.setAttribute('aria-pressed','true');
+    wizardState.type = el.dataset.type;
+    document.getElementById('toStep2').disabled = false;
+    var select = document.getElementById('svcSelect');
+    select.innerHTML = '';
+    (SERVICE_MAP[wizardState.type] || []).forEach(function(s){
+      var o = document.createElement('option'); o.textContent = s; select.appendChild(o);
+    });
+  };
+
+  window.ttStep = function(n){
+    document.querySelectorAll('.wizard-step').forEach(function(s){s.classList.toggle('active', Number(s.dataset.step)===n);});
+    var segs = document.querySelectorAll('#wizardProgress .seg');
+    segs.forEach(function(seg,i){ seg.classList.toggle('done', i < n); });
+    document.getElementById('wizardProgress').setAttribute('aria-valuenow', n);
+    if(n === 4){
+      var svc = document.getElementById('svcSelect').value;
+      var therapist = document.getElementById('therapistSelect').value;
+      var date = document.getElementById('dateInput').value || '(not set)';
+      var time = document.getElementById('timeInput').value || '(not set)';
+      var tz = document.getElementById('tzSelect').value;
+      var name = document.getElementById('fullName').value || '(not set)';
+      var email = document.getElementById('email').value || '(not set)';
+      var rows = [
+        ['Service type', wizardState.type || '(not set)'],
+        ['Specific service', svc || '(not set)'],
+        ['Therapist', therapist],
+        ['Date &amp; time', date + ' at ' + time + ' (' + tz + ')'],
+        ['Name', name],
+        ['Email', email]
+      ];
+      document.getElementById('reviewSummary').innerHTML = rows.map(function(r){
+        return '<div class="summary-row"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>';
+      }).join('');
+    }
+    document.querySelector('.wizard-card').scrollIntoView({behavior:'smooth', block:'start'});
+  };
+
+  // ----- Donate -----
+  var donateState = { freq: 'once', amount: 25 };
+  var IMPACT_NOTES = {
+    10: "$10 helps provide a communication picture-book for a child just starting therapy.",
+    25: "$25 can cover the cost of one subsidised teletherapy session for a family in need.",
+    50: "$50 helps fund a week of teletherapy data access for a rural family.",
+    100: "$100 contributes toward an AAC communication device for a non-verbal child.",
+    250: "$250 can sponsor a full month of therapy for a child from a low-income family.",
+    custom: "Every gift, of any size, helps a family access the care they need."
+  };
+  function ttUpdateDonateUI(){
+    var freqLabel = donateState.freq === 'monthly' ? '/month' : '';
+    var amt = donateState.amount || 0;
+    document.getElementById('donateBtn').textContent = 'Donate $' + amt + freqLabel;
+    document.getElementById('impactNote').textContent = IMPACT_NOTES[donateState.amount] || IMPACT_NOTES.custom;
+  }
+  window.ttSetFreq = function(btn){
+    document.querySelectorAll('.freq-toggle button').forEach(function(b){b.setAttribute('aria-pressed','false');});
+    btn.setAttribute('aria-pressed','true');
+    donateState.freq = btn.dataset.freq;
+    ttUpdateDonateUI();
+  };
+  window.ttSetAmt = function(btn){
+    document.querySelectorAll('.amount-btn').forEach(function(b){b.setAttribute('aria-pressed','false');});
+    btn.setAttribute('aria-pressed','true');
+    var row = document.getElementById('customAmountRow');
+    if(btn.dataset.amt === 'custom'){
+      row.style.display = 'flex'; row.classList.add('active');
+      document.getElementById('customAmount').focus();
+      donateState.amount = Number(document.getElementById('customAmount').value) || 0;
+      document.getElementById('impactNote').textContent = IMPACT_NOTES.custom;
+      document.getElementById('donateBtn').textContent = 'Donate $' + (donateState.amount||0) + (donateState.freq==='monthly'?'/month':'');
+    } else {
+      row.style.display = 'none'; row.classList.remove('active');
+      donateState.amount = Number(btn.dataset.amt);
+      ttUpdateDonateUI();
+    }
+  };
+  window.ttCustomAmt = function(val){
+    donateState.amount = Number(val) || 0;
+    document.getElementById('donateBtn').textContent = 'Donate $' + donateState.amount + (donateState.freq==='monthly'?'/month':'');
+  };
+  window.ttDonate = function(){
+    document.getElementById('donateForm').style.display = 'none';
+    document.getElementById('donateConfirm').style.display = 'block';
+  };
+
+  // ----- Login / client portal preview -----
+  window.ttLogin = function(){
+    var email = document.getElementById('loginEmail').value;
+    var namePart = email ? ', ' + email.split('@')[0] : '';
+    document.getElementById('portalName').textContent = namePart;
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('portalView').style.display = 'block';
+  };
+  window.ttLogout = function(){
+    document.getElementById('portalView').style.display = 'none';
+    document.getElementById('loginView').style.display = 'block';
+    document.getElementById('loginForm').reset();
+  };
+  window.ttResetSent = function(){
+    document.getElementById('resetConfirm').style.display = 'block';
+  };
+
+  window.ttBook = function(){
+    document.getElementById('wizardForm').style.display = 'none';
+    document.querySelector('.wizard-progress').style.display = 'none';
+    document.getElementById('confirmBox').classList.add('show');
+  };
+})();
+</script>
